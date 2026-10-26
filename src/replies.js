@@ -1,8 +1,9 @@
+import "./posthog.js";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import TokenTypesSlide from "./TokenTypesSlide.jsx";
-import TokenChainSlide from "./TokenChainSlide.jsx";
+import TokenTypesSlide from "./components.jsx";
+import TokenChainSlide from "./TokenTypesSlide.jsx";
 import "./tokens.css";
 import "./styles.css";
 

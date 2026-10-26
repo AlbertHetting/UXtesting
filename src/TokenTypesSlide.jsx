@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './token-types-slide.css';
 import './token-chain-slide.css';
+import posthog from './posthog.js';
 
 function SendButton({ onSend }) {
   return <button className="chain-send" onClick={onSend}>Send</button>;
@@ -10,6 +11,18 @@ export default function TokenChainSlide() {
   const [actionToken, setActionToken] = useState('--jade-600');
   const actionValue = actionToken === '--jade-600' ? '#3a646d' : '#182230';
   const [sent, setSent] = useState(false);
+
+  function selectActionToken(event) {
+    const token = event.target.value;
+    posthog.capture('token_chain_value_selected', { token });
+    setActionToken(token);
+  }
+
+  function sendTokenChainDemo() {
+    posthog.capture('token_chain_send_clicked');
+    setSent(true);
+  }
+
   const stages = [
     ['React-komponent', '<SendButton />', 'function SendButton({ onSend }) {\n  return (\n    <button className="chain-send"\n      onClick={onSend}>Send</button>\n  );\n}'],
     ['CSS-klasse', '.chain-send', '.chain-send {\n  background: var(--color-action);\n  color: var(--color-on-action);\n}'],
@@ -32,11 +45,11 @@ export default function TokenChainSlide() {
     </ol>
     <section className="token-slide-demo" aria-label="Afprøv token-kæden">
       <label htmlFor="chain-value">Vælg den primitive token til --color-action</label>
-      <select id="chain-value" value={actionToken} onChange={event => setActionToken(event.target.value)}>
+      <select id="chain-value" value={actionToken} onChange={selectActionToken}>
         <option value="--jade-600">Jade Green · #3a646d</option>
         <option value="--neutral-800">Mørk neutral · #182230</option>
       </select>
-      <SendButton onSend={() => setSent(true)} />
+      <SendButton onSend={sendTokenChainDemo} />
       <p role="status">{sent ? 'Send-knappen virker. Dens udseende kommer fra token-kæden.' : 'Prøv knappen, og skift derefter den semantiske reference.'}</p>
     </section>
     <p>Begge primitive tokens beholder deres faste værdier. --color-action skifter kun, hvilken token den refererer til.</p>
