@@ -1,26 +1,61 @@
-.token-slide {
-  --jade-600: #3a646d;
-  --neutral-800: #182230;
-  --space-4: 1rem;
-  --color-action: var(--jade-600);
-  --space-panel: var(--space-4);
-  --slide-background: #f3f4f7;
-  --slide-text: #3a646d;
-  --slide-on-action: #ffffff;
-  box-sizing: border-box;
-  min-height: 100vh;
-  padding: clamp(1.25rem, 5vw, 4rem);
-  background: var(--slide-background);
-  color: var(--slide-text);
-  font: clamp(1rem, 1.7vw, 1.5rem)/1.5 system-ui, sans-serif;
+/* Faste primitive værdier: paletten og skalaerne. */
+:root {
+  --blue-200: #dce5ff;
+  --orange-300: #ffc078; --orange-700: #ae3e00;
+  --blue-100: #edf2ff; --blue-300: #bac9ed; --blue-400: #9bbcff;
+  --blue-600: #2457d6; --blue-700: #1943ae; --blue-900: #193b91;
+  --neutral-0: #ffffff; --neutral-50: #eef2f6; --neutral-200: #c4ced9;
+  --neutral-500: #526172; --neutral-700: #344256; --neutral-800: #182230; --neutral-950: #101720;
+  --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem;
+  --radius-small: .5rem; --radius-medium: .75rem; --radius-large: 1rem;
+  /* Fælles typografi, fokus og layout. Navne efter funktion er semantiske. */
+  --font-family-body: system-ui, sans-serif; --font-size-body: 1rem; --font-size-small: .875rem; --font-size-heading: 1.5rem;
+  --font-weight-strong: 600; --line-height-body: 1.5;
+  --border-width: 1px; --focus-width: 3px; --focus-offset: 3px;
+  --control-min-height: 2.75rem; --layout-chat-width: 50rem; --layout-log-height: 27.5rem;
+  --icon-size-control: 1.25rem;
 }
-.token-slide h1 { font-size: clamp(2rem, 3.4vw, 3rem); margin: 0 0 2rem; }
-.token-slide h2 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
-.token-slide-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); gap: 2rem; }
-.token-slide pre { overflow-x: auto; font-size: .9em; }
-.token-slide-demo { padding: var(--space-panel) 0; border-block: 1px solid currentColor; margin-block: 1.5rem; }
-.token-slide-demo label { display: block; font-weight: 600; }
-.token-slide-demo select { font: inherit; max-width: 100%; padding: .5rem; margin: .75rem 1rem .75rem 0; background: var(--slide-background); color: var(--slide-text); }
-.token-slide .token-slide-example { background: var(--color-action); color: var(--slide-on-action); border: 0; padding: .75rem 1.5rem; border-radius: .5rem; font: inherit; }
-.token-slide :is(select, button):focus-visible { outline: 3px solid var(--slide-text); outline-offset: 4px; }
-.token-slide-demo p { margin: .5rem 0; }
+
+/* Semantiske tokens: rollerne i vores UI. */
+.app {
+  --color-code-surface: var(--neutral-0);
+  --color-code-text: var(--neutral-800);
+  --font-family-code: ui-monospace, Consolas, monospace;
+  --color-page: var(--neutral-50); --color-surface: var(--neutral-0);
+  --color-text: var(--neutral-800); --color-text-muted: var(--neutral-500);
+  --color-border: var(--neutral-200); --color-input-border: var(--neutral-500);
+  --color-action: var(--blue-600); --color-action-hover: var(--blue-700); --color-on-action: var(--neutral-0);
+  --color-secondary: var(--blue-100); --color-secondary-hover: var(--blue-200); --color-on-secondary: var(--blue-900);
+  --color-secondary-border: var(--blue-300); --color-focus: var(--orange-700);
+  --color-message-assistant: var(--neutral-50); --color-on-message-assistant: var(--neutral-800);
+  --color-message-user: var(--color-action); --color-on-message-user: var(--color-on-action);
+  --space-panel: var(--space-6); --space-message: var(--space-3); --space-stack: var(--space-4);
+  --space-control-block: var(--space-3); --space-control-inline: var(--space-4);
+  --radius-control: var(--radius-small); --radius-message: var(--radius-medium); --radius-panel: var(--radius-large);
+  --opacity-disabled: .55;
+  color-scheme: light;
+}
+
+/* Temaet ændrer rollerne. De primitive værdier ovenfor forbliver faste. */
+.app[data-theme="dark"] {
+  --color-page: var(--neutral-950);
+  --color-surface: var(--neutral-800);
+  --color-text: var(--neutral-50);
+  --color-text-muted: var(--neutral-200);
+  --color-border: var(--neutral-500);
+  --color-input-border: var(--neutral-200);
+  --color-action: var(--blue-400);
+  --color-action-hover: var(--blue-300);
+  --color-on-action: var(--neutral-950);
+  --color-secondary: var(--neutral-700);
+  --color-secondary-hover: var(--neutral-500);
+  --color-on-secondary: var(--neutral-0);
+  --color-secondary-border: var(--neutral-500);
+  --color-focus: var(--orange-300);
+  --color-message-assistant: var(--neutral-700);
+  --color-on-message-assistant: var(--neutral-50);
+  --color-code-surface: var(--neutral-950);
+  --color-code-text: var(--neutral-50);
+  color-scheme: dark;
+}
+

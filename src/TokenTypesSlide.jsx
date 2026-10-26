@@ -1,59 +1,35 @@
 import React, { useState } from 'react';
 import './token-types-slide.css';
-import './token-chain-slide.css';
-import posthog from './posthog.js';
 
-function SendButton({ onSend }) {
-  return <button className="chain-send" onClick={onSend}>Send</button>;
-}
-
-export default function TokenChainSlide() {
+export default function TokenTypesSlide() {
   const [actionToken, setActionToken] = useState('--jade-600');
-  const actionValue = actionToken === '--jade-600' ? '#3a646d' : '#182230';
-  const [sent, setSent] = useState(false);
-
-  function selectActionToken(event) {
-    const token = event.target.value;
-    posthog.capture('token_chain_value_selected', { token });
-    setActionToken(token);
-  }
-
-  function sendTokenChainDemo() {
-    posthog.capture('token_chain_send_clicked');
-    setSent(true);
-  }
-
-  const stages = [
-    ['React-komponent', '<SendButton />', 'function SendButton({ onSend }) {\n  return (\n    <button className="chain-send"\n      onClick={onSend}>Send</button>\n  );\n}'],
-    ['CSS-klasse', '.chain-send', '.chain-send {\n  background: var(--color-action);\n  color: var(--color-on-action);\n}'],
-    ['Semantisk token', '--color-action', `.token-chain {\n  --color-action: var(${actionToken});\n}`],
-    ['Primitiv token', actionToken, `.token-slide {\n  --jade-600: #3a646d;\n  --neutral-800: #182230;\n}`],
-    ['Værdi', actionValue, `/* Den valgte primitives faste værdi */\n${actionValue}`],
-  ];
-
-  return <main className="token-slide token-chain" style={{ '--color-action': 'var(' + actionToken + ')' }}>
+  return <main className="token-slide" style={{ '--color-action': 'var(' + actionToken + ')' }}>
     <a href="?">Tilbage til chatbotten</a>
-    <h1>Designbeslutninger bag en React-komponent</h1>
-    <p>Følg opslagene fra komponentens CSS-klasse til den konkrete farveværdi.</p>
-    <ol className="chain-stages">
-      {stages.map(([title, name, code], index) => <li key={title}>
-        <span className="chain-step">{index + 1}</span>
-        <h2>{title}</h2>
-        <code>{name}</code>
-        <pre><code>{code}</code></pre>
-      </li>)}
-    </ol>
-    <section className="token-slide-demo" aria-label="Afprøv token-kæden">
-      <label htmlFor="chain-value">Vælg den primitive token til --color-action</label>
-      <select id="chain-value" value={actionToken} onChange={selectActionToken}>
+    <h1>Primitive og semantiske tokens</h1>
+    <div className="token-slide-columns">
+      <section>
+        <h2>Primitiv: Hvilken værdi?</h2>
+        <p>En navngiven værdi i en palette eller skala.</p>
+        <pre><code>{'--jade-600: #3a646d;\n--neutral-800: #182230;\n--space-4: 1rem;'}</code></pre>
+      </section>
+      <section>
+        <h2>Semantisk: Hvad bruges den til?</h2>
+        <p>En navngiven rolle i designet.</p>
+        <pre><code>{`--color-action: var(${actionToken});\n--space-panel: var(--space-4);`}</code></pre>
+      </section>
+    </div>
+    <section className="token-slide-demo" aria-label="Afprøv en fælles designændring">
+      <label htmlFor="primitive-value">Vælg den primitive token til --color-action</label>
+      <select id="primitive-value" value={actionToken} onChange={event => setActionToken(event.target.value)}>
         <option value="--jade-600">Jade Green · #3a646d</option>
         <option value="--neutral-800">Mørk neutral · #182230</option>
       </select>
-      <SendButton onSend={sendTokenChainDemo} />
-      <p role="status">{sent ? 'Send-knappen virker. Dens udseende kommer fra token-kæden.' : 'Prøv knappen, og skift derefter den semantiske reference.'}</p>
+      <button type="button" className="token-slide-example">Send</button>
+      <p>Knappen bruger <code>background: var(--color-action)</code>.</p>
+      <p>De primitive værdier er faste. Kun den semantiske reference skifter.</p>
     </section>
-    <p>Begge primitive tokens beholder deres faste værdier. --color-action skifter kun, hvilken token den refererer til.</p>
-    <p><a href="?slide=6">Se forskellen på primitive og semantiske tokens</a></p>
+    <p><strong>Do:</strong> Navngiv semantiske tokens efter formålet, fx <code>--color-action</code>.</p>
+    <p><strong>Don’t:</strong> Lås rollen til en farve, fx <code>--blue-button</code>. Farvenavne er fine på det primitive lag.</p>
   </main>;
 }
 

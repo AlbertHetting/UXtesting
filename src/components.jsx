@@ -1,44 +1,33 @@
 import React, { useState } from 'react';
-import './token-types-slide.css';
-import posthog from './posthog.js';
 
-export default function TokenTypesSlide() {
-  const [actionToken, setActionToken] = useState('--jade-600');
-
-  function selectActionToken(event) {
-    const token = event.target.value;
-    posthog.capture('token_type_value_selected', { token });
-    setActionToken(token);
-  }
-
-  return <main className="token-slide" style={{ '--color-action': 'var(' + actionToken + ')' }}>
-    <a href="?">Tilbage til chatbotten</a>
-    <h1>Primitive og semantiske tokens</h1>
-    <div className="token-slide-columns">
-      <section>
-        <h2>Primitiv: Hvilken værdi?</h2>
-        <p>En navngiven værdi i en palette eller skala.</p>
-        <pre><code>{'--jade-600: #3a646d;\n--neutral-800: #182230;\n--space-4: 1rem;'}</code></pre>
-      </section>
-      <section>
-        <h2>Semantisk: Hvad bruges den til?</h2>
-        <p>En navngiven rolle i designet.</p>
-        <pre><code>{`--color-action: var(${actionToken});\n--space-panel: var(--space-4);`}</code></pre>
-      </section>
-    </div>
-    <section className="token-slide-demo" aria-label="Afprøv en fælles designændring">
-      <label htmlFor="primitive-value">Vælg den primitive token til --color-action</label>
-      <select id="primitive-value" value={actionToken} onChange={selectActionToken}>
-        <option value="--jade-600">Jade Green · #3a646d</option>
-        <option value="--neutral-800">Mørk neutral · #182230</option>
-      </select>
-      <button type="button" className="token-slide-example">Send</button>
-      <p>Knappen bruger <code>background: var(--color-action)</code>.</p>
-      <p>De primitive værdier er faste. Kun den semantiske reference skifter.</p>
-    </section>
-    <p><strong>Do:</strong> Navngiv semantiske tokens efter formålet, fx <code>--color-action</code>.</p>
-    <p><strong>Don’t:</strong> Lås rollen til en farve, fx <code>--blue-button</code>. Farvenavne er fine på det primitive lag.</p>
-  </main>;
+export function Button({ variant = 'primary', type = 'button', children, ...props }) {
+  return <button type={type} className={`button button--${variant}`} {...props}>{children}</button>;
 }
 
+export function Message({ role, text, code }) {
+  return <article className={`message message--${role}`}>
+    <strong className="message-author">{role === 'user' ? 'Dig' : 'Token-bot'}</strong>
+    <p>{text}</p>
+    {role === 'assistant' && code && <>
+      <p className="message-code-label">React-eksempel</p>
+      <pre className="message-code" tabIndex={0} aria-label="React-kodeeksempel"><code>{code}</code></pre>
+    </>}
+  </article>;
+}
 
+export function Composer({ onSend }) {
+  const [draft, setDraft] = useState('');
+  function submit(event) {
+    event.preventDefault();
+    if (!draft.trim()) return;
+    onSend(draft.trim());
+    setDraft('');
+  }
+  return <form className="composer" onSubmit={submit}>
+    <label htmlFor="question">Din besked</label>
+    <div className="composer-controls">
+      <input id="question" value={draft} onChange={event => setDraft(event.target.value)} placeholder="Spørg om design tokens…" autoComplete="off" />
+      <Button type="submit" disabled={!draft.trim()}>Send</Button>
+    </div>
+  </form>;
+}

@@ -1,17 +1,10 @@
-# Spor A · Underviserens chatbotprojekt
+# Spor B · Jeres eget React-projekt
 
-**Dette er hele jeres spor. Brug samme kopi af chatbotprojektet til alle øvelser. I skal ikke skifte til eget projekt eller til en løsningsbranch undervejs.**
+**Dette er hele jeres spor. Brug samme React-projekt og samme valgte side gennem alle øvelser. I skal ikke hente underviserens chatbot eller skifte til den undervejs.**
 
-Hent branchen **starter** med Code → Download ZIP, eller brug:
+Projektet skal kunne køre lokalt. Vælg en afgrænset side med en knap, et inputfelt og et kort eller panel. Aftal sidens vigtigste handling, fx Gem eller Opret. Brug den samme side og dens komponenter i resten af forløbet.
 
-```sh
-git clone --branch starter https://github.com/h-oellgaard/react-design-tokens-chatbot.git
-cd react-design-tokens-chatbot
-npm ci
-npm start
-```
-
-Startkoden har faste CSS-værdier og en fungerende chatbot med demosvar. Ingen API-nøgle er nødvendig. Main, tokens-solution og theme er løsningsversioner, som underviseren kan vise. Jeres egen kode er udgangspunktet for næste øvelse.
+Behold jeres filstruktur, værktøjer og komponentbiblioteker. Har I allerede tokens, kortlæg og genbrug dem først. Fokus er at få lokale styles til at følge jeres fælles system, ikke at bygge et parallelt designsystem. Start med projektets sædvanlige startkommando.
 
 Der er ingen afleveringer. I skal implementere opgaverne i det valgte projekt og afprøve, at løsningerne virker. Arbejd i par. Aftal, hvem der skriver, og hvem der reviewer. Byt efter øvelse 1. Gennemfør Level 1 først; Level 2 er frivillig for de hurtige og kan fortsættes hjemme. Deltag stadig i fælles oplæg og afslutning.
 
@@ -27,7 +20,7 @@ Tal også om grænsen: Tokens kan koordinere udseendet, men afgør ikke, hvor kn
 
 ## 1 · Fra faste værdier til fælles tokens (9.00–9.25)
 
-**Problem:** Flere har stylet chatbotten. Knapper og beskeder bruger forskellige afrundinger, og farver og afstande gentages.
+**Problem:** Jeres valgte side har gentagne værdier eller lokale designvalg, som bør følge fælles regler. Find fx knapper med samme funktion, der utilsigtet har forskellig afrunding.
 
 **`tokens.css` er fælles: Single source of truth.** Saml de fælles designbeslutninger i denne fil. Mange komponenter og deres forskellige CSS-filer kan bruge de samme tokens gennem `var(--...)`. Ændrer I en fælles token, følger alle de steder, der bruger den, med. I skal altså ikke kopiere tokenværdier ind i hver komponentfil.
 
@@ -41,18 +34,18 @@ Card.css    → bruger de samme fælles tokens
 
 Importer `tokens.css` én gang ved appens start, fx i `main.jsx`. De komponenter, der skal bruge variablerne, skal ligge under det element, hvor de er defineret: `:root` gør dem tilgængelige via arv på hele HTML-siden; `.app` afgrænser dem til appens efterkommere. En lokal overskrivning kan ændre værdien inden for et mindre område.
 
-I starter med den udleverede CSS og opretter jeres fælles tokenfil. Vælg efter funktion, ikke kun fordi to farver ser ens ud.
+Bruger I allerede tokens eller et komponentbibliotek, så undersøg først, hvilke fælles designvalg og temamuligheder der findes. Genbrug eller tilpas det eksisterende system frem for at lave en konkurrerende tokenfil. Find derefter lokale, faste værdier i jeres egen styling, der bør bruge systemets fælles tokens. Vælg efter funktion, ikke kun fordi to farver ser ens ud.
 
-1. Åbn `src/styles.css`. Find gentagne værdier og inkonsekvente valg.
-2. Opret `src/tokens.css`, og importer den før `styles.css` i `main.jsx`.
+1. Åbn de styles, som bruges på jeres valgte side. Find gentagne værdier og inkonsekvente valg. Brug filerne i jeres eget projekt; filnavnene er ikke et krav.
+2. Brug projektets eksisterende tokenfil, eller opret en fælles `tokens.css`. Indlæs den én gang ved appens start før komponenternes styles. Har I et bibliotek med tokens og temaopsætning, brug dets etablerede struktur.
 3. Aftal en lille skala for farver, afstande og afrunding. Opret primitive tokens, fx `--blue-600`, `--space-3` og `--radius-small`.
 4. Opret semantiske tokens, fx `--color-text`, `--color-surface`, `--color-action` og `--radius-control`.
 5. Brug semantiske farvetokens i komponenternes CSS. Brug skalaen til gentagne afstande. Ensret afrunding, hvor det giver mening.
 
 **Hvad skal I kigge efter?**
 
-- **Gentagne værdier:** Den samme konkrete CSS-værdi står flere steder. Fx bruges `#2457d6` som baggrund på både Send-knappen og brugerens besked, og `#ffffff` bruges som tekstfarve på begge. Det er ikke nødvendigvis en fejl. Undersøg, om stederne deler en designbeslutning, som kan få et fælles tokennavn. To ens værdier kan også have forskellige formål og derfor kræve forskellige semantiske tokens.
-- **Inkonsekvente valg:** Elementer, der efter jeres designaftale burde følge samme regel, bruger forskellige værdier. I startkoden har den primære knap fx `border-radius: 8px`, mens den sekundære knap har `border-radius: 5px`. Hvis begge skal have samme form, er det en inkonsistens, som et fælles `--radius-control` kan rette.
+- **Gentagne værdier:** Den samme konkrete CSS-værdi står flere steder. Fx kan den samme baggrundsfarve være skrevet direkte på flere primære handlingsknapper. Det er ikke nødvendigvis en fejl. Undersøg, om stederne deler en designbeslutning, som kan få et fælles tokennavn. To ens værdier kan også have forskellige formål og derfor kræve forskellige semantiske tokens.
+- **Inkonsekvente valg:** Elementer, der efter jeres designaftale burde følge samme regel, bruger forskellige værdier. Fx kan to knapper i jeres projekt bruge henholdsvis `border-radius: 8px` og `border-radius: 5px`. Hvis begge skal have samme form, er det en inkonsistens, som et fælles `--radius-control` kan rette.
 
 I skal altså undersøge **hvad der går igen**, og **hvad der varierer uden en god grund**. Forskellige værdier er ikke automatisk forkerte: En overskrift og en hjælpetekst kan med god grund have forskellige skriftstørrelser. Begrund, hvilke forskelle I beholder, og hvilke I ensretter.
 
@@ -86,7 +79,7 @@ Eksempel på strukturen, som I selv udvider:
 
 Kataloget hjælper en ny udvikler med at se, hvilke tokens der findes, hvordan de ser ud, og hvornår de skal bruges.
 
-1. Opret `TokenPreview.jsx`, og vis komponenten et sted i jeres app, fx under chatbotten.
+1. Opret `TokenPreview.jsx`, og vis komponenten et sted i jeres app, fx under den side, I arbejder på, eller på en intern side med komponenteksempler.
 2. Vis følgende eksempler med de tokens, I har oprettet:
    - **Farver:** Et felt med rigtig tekst og baggrund. Skriv tokennavnene ved siden af, fx `--color-text` og `--color-surface`. Vis også et andet relevant farvepar, fx en handlingsknap og dens tekst.
    - **Afstande:** Tre bokse med forskellig indvendig afstand fra jeres skala, fx `--space-2`, `--space-4` og `--space-6`. Skriv navnet på hver token, så forskellen er let at sammenligne.
@@ -121,36 +114,32 @@ Vis den ved at importere komponenten i `App.jsx` og indsætte `<TokenPreview />`
 
 **I er færdige, når:** Tokennavnene står ved de visuelle eksempler, alle eksempler bruger jeres faktiske tokens, og makkeren kan vælge tokens ud fra forklaringerne i appen. Lad fx en semantisk farvetoken pege på en anden eksisterende primitiv token: Både kataloget og appen skal følge med. Behold palettens navne og værdier meningsfulde; lad ikke en grøn primitiv token skifte til sort. Temaer er ikke nødvendige for at løse denne opgave. Layoutværdier må gerne være lokale; begrund, hvad I vælger at dele.
 
-## 2 · To udviklere, samme chatbot (10.00–10.25)
+## 2 · To udviklere, samme side (10.00–10.25)
 
-**Problem:** En udvikler tilføjer forslag til spørgsmål. En anden bygger et panel med hjælp. Begge skal passe ind i samme design.
+**Problem:** I bygger hver jeres udvidelse til den valgte side. Begge skal følge samme design og bruge jeres tokens.
 
-Brug først tre minutter på en fælles aftale:
+**Vælg komponenter, der giver mening i jeres eget projekt.** Handlingspanelet og hjælpepanelet nedenfor er eksempler. I kan i stedet vælge to andre komponenter, fx et produktkort og et filterpanel, en formular og en statusbesked eller to relevante udvidelser til jeres eksisterende side. I behøver ikke bygge handlings- og hjælpepanelerne, hvis I vælger noget andet.
 
-- Nye komponenter bruger de eksisterende tokens og den fælles `Button`.
-- Nye farveværdier placeres i tokenfilen og aftales med makkeren.
-- `Button` har varianterne `primary` og `secondary`; man laver ikke en ny knap til hver placering.
+Aftal, hvem der bygger hvilken komponent, hvilke props og callbacks de har brug for, og hvordan de bruger fælles tokens og genbrugelige komponenter. Tilpas trin 2-5 og tjeklisten til jeres valg. En fælles knap bruges, hvor en handling kræver en knap; I skal ikke tilføje knapper uden et formål.
 
-Del derefter arbejdet:
+1. Brug tre minutter på en Team Working Agreement: Genbrug tokens og fælles komponenter, aftal nye tokens, og review ændringer. Aftal også props og integration, inden I deler arbejdet.
+2. Vælg eller opret én fælles knapkomponent, som begge udvidelser kan bruge. Genbrug bibliotekets knap, hvis I allerede har en. Aftal en primær og en sekundær variant inden for projektets eksisterende API.
+3. **Udvikler A:** Byg et lille handlingspanel med en eller to relevante handlinger til siden, fx Gem og Fortryd. Panelet modtager callbacks til handlingerne; genbrug sidens eksisterende funktioner eller vis en tydelig lokal kvittering. Der kræves ingen ny backend.
+4. **Udvikler B:** Byg et hjælpepanel med tekst til sidens bruger og en Luk-knap. Panelet modtager en callback til lukning. Siden skal også have en knap til at åbne hjælpen igen.
+5. Opret hver jeres komponentfil. Aftal, hvem der integrerer dem på den valgte side, og gennemgå resultatet sammen.
 
-**Udvikler A:** Lav `SuggestedQuestions` med knapperne “Hvad er tokens?” og “Hvordan virker temaer?”. Komponenten modtager `onSelect(text)` og bruger `Button` med `variant="secondary"`. App sender `send` som callback.
+**Implementer:** Begge udvidelser på jeres valgte side, og afprøv deres funktioner sammen. Brug jeres fælles arbejdsaftale undervejs.
 
-**Udvikler B:** Lav `HelpPanel` med kort hjælpetekst og en “Luk hjælp”-knap. Komponenten modtager `onClose`. App styrer, om panelet vises, og har en “Vis hjælp”-knap, som åbner det igen.
+**Tjek:** Virker jeres valgte komponenters funktioner og samspil? Hvis I valgte hjælpepanelet, kan det lukkes og åbnes? Bruger begge udvidelser fælles tokens og relevante genbrugelige komponenter? Hvilke beslutninger krævede aftaler ud over tokens?
 
-Opret hver jeres komponentfil og aftal, hvem der integrerer i `App.jsx`, så I undgår at overskrive hinandens ændringer. Placer begge komponenter mellem introduktionsteksten og beskedlisten.
-
-**Implementer:** Begge komponenter i chatbotten, og afprøv deres funktioner sammen. Brug jeres fælles arbejdsaftale undervejs.
-
-**Tjek:** Virker forslagene? Kan hjælpen lukkes og åbnes? Bruger begge komponenter samme knap og tokens? Hvilke beslutninger kunne tokens ikke løse?
-
-Hvis I bruger en AI-agent, giv den aftalen og de relevante filer. Review dens ændringer efter præcis de samme regler.
+Hvis I bruger en AI-agent, giv den aftalen og projektets eksisterende tokens og komponenter. Review dens ændringer efter samme regler.
 
 ### Level 2 · Udvid komponenten uden at kopiere den
 
 **Udfordring:** Flere udviklere vil have hver deres knapvariant. I skal holde interfacet overskueligt.
 
-1. Udvid den fælles `Button` med `size="small" | "medium"` og `variant="danger"` til destruktive handlinger. Brug medium som standard, så eksisterende knapper fortsat virker.
-2. Definer semantiske tokens til danger-baggrund, tekst og hover samt afstandstokens til størrelserne. Brug danger til “Ny samtale”, som rydder beskederne,.
+1. Udvid eller konfigurer jeres fælles knapkomponent med to størrelser og en variant til destruktive handlinger. Behold den eksisterende standard. Hvis biblioteket allerede har størrelser og en danger-variant, genbrug dem og dokumenter dets props.
+2. Definer semantiske tokens til danger-baggrund, tekst og hover samt afstandstokens til størrelserne. Vis danger på en relevant ryd- eller slet-handling. Hvis siden ikke har en, vis varianten i komponentoversigten uden at tilføje en virkelig slettefunktion.
 3. Lav en lille komponentoversigt, der viser begge størrelser og alle tre varianter i normal og disabled tilstand. Kontroller også hover og tastaturfokus.
 4. Dokumenter props og skriv et kort eksempel på en instruktion til en AI-agent, der skal genbruge komponenten. Det er ikke nødvendigt at have en AI-konto.
 
@@ -160,15 +149,15 @@ Hvis I bruger en AI-agent, giv den aftalen og de relevante filer. Review dens æ
 
 ## 3 · Et mørkt tema (10.25–10.50)
 
-**Problem:** Chatbotten skal fungere både lyst og mørkt. Komponenterne skal beholde deres CSS-regler.
+**Problem:** Jeres valgte side skal fungere både lyst og mørkt, mens de samme komponenter følger med.
 
 Første fem minutter er fælles demonstration. Derefter:
 
-1. Find `theme` og `data-theme` i `App.jsx`. Temaknappen skifter allerede værdien.
-2. Tilføj `.app[data-theme="dark"]` i tokenfilen.
-3. Overskriv semantiske tokens for side, overflade, tekst, kant, handling, beskeder og fokus. Tilføj `color-scheme: dark` i det mørke tema og `color-scheme: light` i standardtemaet.
+1. Har projektet allerede temaer, brug den eksisterende temavælger. Ellers tilføj React-state og en temaknap, som skifter mellem light og dark. Sæt `data-theme` på sidens fælles wrapper eller på `<html>`, så alle relevante komponenter er omfattet.
+2. Tilføj en selector til mørkt tema, der matcher placeringen af jeres attribut, fx `.app[data-theme="dark"]` eller `:root[data-theme="dark"]`. Med et komponentbibliotek bruger I dets temaopsætning.
+3. Overskriv semantiske tokens for side, overflade, tekst, kant, handling og fokus. Tilføj `color-scheme: dark` i det mørke tema og `color-scheme: light` i standardtemaet.
 4. Kontroller også jeres nye komponenter fra øvelse 2.
-5. Afprøv hover, tastaturfokus, placeholder og den deaktiverede Send-knap i begge temaer.
+5. Afprøv hover, tastaturfokus, placeholder og deaktiverede knapper i begge temaer.
 
 **Implementer:** Et fungerende skift mellem lyst og mørkt tema med de samme komponenter.
 
@@ -189,17 +178,17 @@ Første fem minutter er fælles demonstration. Derefter:
 
 ## 4 · Stresstest: Nyt brand og kompakt visning (10.50–11.10)
 
-I får denne besked: **“Skift brandfarven, og gør chatbotten mere kompakt.”**
+I får denne besked: **“Skift brandfarven, og gør jeres valgte side mere kompakt.”**
 
 1. Skift handlingsfarven centralt. Husk at teste teksten ovenpå samt hover i begge temaer.
-2. Opret semantiske afstandstokens for panelpadding, beskedpadding og afstand mellem beskeder.
-3. Find `data-density` i App. Tilføj `.app[data-density="compact"]`, der giver disse tokens mindre værdier.
+2. Opret semantiske afstandstokens for padding i kort/paneler og afstand mellem sidens gentagne elementer.
+3. Tilføj React-state og en vælger til normal/kompakt visning. Sæt `data-density` på den fælles wrapper, og overskriv afstandstokens i en matchende compact-selector. Genbrug en eksisterende tæthedsindstilling, hvis projektet har en.
 4. Behold knapperne brugbare; mindre afstand behøver ikke betyde mindre klikflader.
 5. Lad et andet par reviewe jeres løsning.
 
 **Implementer:** Den centrale brandændring og en fungerende kompakt visning. Afprøv resultatet med et andet par.
 
-**Review:** Prøv alle fire kombinationer af lyst/mørkt og normal/kompakt. Send en besked, nulstil samtalen og prøv en lang besked uden mellemrum. Prøv smal mobilbredde og betjen med Tab og Enter. Er der lokale farver, som temaet ikke styrer?
+**Review:** Prøv alle fire kombinationer af lyst/mørkt og normal/kompakt. Afprøv sidens primære handling, åbn og luk hjælpen, og indsæt lang tekst i inputfeltet. Prøv smal mobilbredde og betjen med Tab og Enter. Er der lokale farver, som temaet ikke styrer?
 
 ### Level 2 · Fang brud på aftalerne automatisk
 
@@ -220,4 +209,4 @@ I får denne besked: **“Skift brandfarven, og gør chatbotten mere kompakt.”
 
 Vis én designbeslutning, I har ændret, og forklar hvor mange steder den påvirkede.
 
-Tal med makkeren om tre regler til den næste udvikler eller AI-agent, der skal arbejde videre på chatbotten. Nævn også ét problem, som tokens ikke løser.
+Tal med makkeren om tre regler til den næste udvikler eller AI-agent, der skal arbejde videre på jeres projekt. Nævn også ét problem, som tokens ikke løser.

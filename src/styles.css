@@ -1,69 +1,37 @@
-const tokenExample = `export function ChatTitle() {
-  return (
-    <h2 style={{ color: 'var(--color-text)' }}>
-      Token-chatten
-    </h2>
-  );
-}`;
-
-export const welcome = {
-  id: 0,
-  role: 'assistant',
-  text: 'Hej! Spørg mig om design tokens, CSS-variabler, komponenter eller temaer. Hvert svar har et React-eksempel.',
-  code: tokenExample,
-};
-
-export function replyTo(text) {
-  const question = text.toLowerCase();
-  if (question.includes('tema')) return {
-    text: 'Prøv temaknappen i toppen. React skifter data-theme, og CSS lader de semantiske tokens pege på andre primitive tokens. De primitive farver forbliver faste. Komponenten her bruger de samme tokennavne i begge temaer.',
-    code: `export function ChatPanel({ children }) {
-  return (
-    <section style={{
-      background: 'var(--color-surface)',
-      color: 'var(--color-text)',
-    }}>
-      {children}
-    </section>
-  );
-}`,
-  };
-  if (question.includes('komponent')) return {
-    text: 'En fælles komponent samler struktur og adfærd. Genbrug vores Button, så knapper følger samme komponent-CSS og tokens.',
-    code: `import { Button } from './components.jsx';
-
-export function ResetChat({ onReset }) {
-  return (
-    <Button variant="secondary" onClick={onReset}>
-      Ny samtale
-    </Button>
-  );
-}`,
-  };
-  if (question.includes('variab') || question.includes(':root') || question.includes('css')) return {
-    text: 'CSS-variabler starter med --. var() henter værdien. Definer fx --space-panel i tokens.css på .app eller :root, og brug den i komponenten. :root vælger HTML-dokumentets rod.',
-    code: `export function MessageBox({ children }) {
-  return (
-    <div style={{ padding: 'var(--space-panel)' }}>
-      {children}
-    </div>
-  );
-}`,
-  };
-  if (question.includes('token')) return {
-    text: 'Et design token er en navngiven designbeslutning. Her bruger React-komponenten --color-text, som defineres i tokens.css. I appen bruger vi normalt CSS-klasser; inline styling her gør koblingen tydelig.',
-    code: tokenExample,
-  };
-  return {
-    text: 'Jeg bruger faste demosvar. Spørg om tokens, CSS-variabler, komponenter eller temaer. Her er et eksempel på, hvordan React viser en liste af beskeder.',
-    code: `export function MessageList({ messages }) {
-  return (
-    <ul>
-      {messages.map(message => (
-        <li key={message.id}>{message.text}</li>
-      ))}
-    </ul>
-  );
-}`,
-  };
-}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+.app { min-height: 100vh; background: var(--color-page); color: var(--color-text); font-family: var(--font-family-body); font-size: var(--font-size-body); line-height: var(--line-height-body); padding: var(--space-8) var(--space-4); }
+.chat { max-width: var(--layout-chat-width); margin: auto; background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-panel); overflow: hidden; }
+.chat-header { padding: var(--space-panel); border-bottom: var(--border-width) solid var(--color-border); }
+h1 { margin: 0; font-size: var(--font-size-heading); }
+.chat-header p { margin: var(--space-2) 0 var(--space-stack); color: var(--color-text-muted); }
+.toolbar { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.theme-button-content { display: inline-flex; align-items: center; gap: var(--space-2); }
+.theme-icon { display: block; width: var(--icon-size-control); height: var(--icon-size-control); flex-shrink: 0; }
+.learning-links { display: flex; flex-wrap: wrap; gap: var(--space-3); padding: var(--space-3) var(--space-panel); border-bottom: var(--border-width) solid var(--color-border); }
+.learning-links a { color: var(--color-text); text-underline-offset: var(--space-1); }
+.learning-links a:focus-visible { outline: var(--focus-width) solid var(--color-focus); outline-offset: var(--focus-offset); }
+.button { border: var(--border-width) solid transparent; border-radius: var(--radius-control); padding: var(--space-control-block) var(--space-control-inline); min-height: var(--control-min-height); cursor: pointer; font-weight: var(--font-weight-strong); }
+.button--primary { background: var(--color-action); color: var(--color-on-action); }
+.button--primary:hover { background: var(--color-action-hover); }
+.button--secondary { background: var(--color-secondary); color: var(--color-on-secondary); border-color: var(--color-secondary-border); }
+.button--secondary:hover, .button--secondary[aria-pressed="true"] { background: var(--color-secondary-hover); }
+.button:disabled { opacity: var(--opacity-disabled); cursor: not-allowed; }
+:is(button, input):focus-visible { outline: var(--focus-width) solid var(--color-focus); outline-offset: var(--focus-offset); }
+.notice { padding: var(--space-3) var(--space-panel); margin: 0; color: var(--color-text-muted); font-size: var(--font-size-small); }
+.messages { display: flex; flex-direction: column; gap: var(--space-stack); padding: var(--space-panel); max-height: var(--layout-log-height); overflow-y: auto; }
+.message { max-width: 85%; padding: var(--space-message) var(--space-4); border-radius: var(--radius-message); overflow-wrap: anywhere; }
+.message--assistant { align-self: flex-start; background: var(--color-message-assistant); color: var(--color-on-message-assistant); }
+.message--user { align-self: flex-end; background: var(--color-message-user); color: var(--color-on-message-user); }
+.message p { margin: var(--space-1) 0 0; }
+.message-author { font-size: var(--font-size-small); }
+.message-code-label { font-weight: var(--font-weight-strong); }
+.message .message-code-label { margin-top: var(--space-4); }
+.message-code { max-width: 100%; overflow-x: auto; margin: var(--space-2) 0 0; padding: var(--space-3); border-radius: var(--radius-control); background: var(--color-code-surface); color: var(--color-code-text); font-family: var(--font-family-code); font-size: var(--font-size-small); white-space: pre; overflow-wrap: normal; }
+.message-code:focus-visible { outline: var(--focus-width) solid var(--color-focus); outline-offset: var(--focus-offset); }
+.composer { padding: var(--space-panel); border-top: var(--border-width) solid var(--color-border); }
+.composer label { display: block; margin-bottom: var(--space-2); font-weight: var(--font-weight-strong); }
+.composer-controls { display: flex; gap: var(--space-2); }
+.composer input { width: 100%; min-width: 0; border: var(--border-width) solid var(--color-input-border); border-radius: var(--radius-control); padding: var(--space-control-block) var(--space-3); background: var(--color-surface); color: var(--color-text); }
+.composer input::placeholder { color: var(--color-text-muted); }
